@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum TransactionType {
+  BUY
+  SELL
+  TOPUP
+}
+
+enum TransactionStatus {
+  SUCCESS
+  PENDING
+  FAILED
+}
+
+model User {
+  id            String   @id @default(uuid())
+
+  fullName      String   @map("full_name")
+  email         String   @unique
+  password      String
+  phone         String?
+  avatar        String?
+
+  role          Role     @default(USER)
+
+  isVerified    Boolean  @default(false) @map("is_verified")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  wallet         Wallet?
+  portfolio      Portfolio?
+  transactions   Transaction[]
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model Wallet {
+  id          String   @id @default(uuid())
+
+  userId      String   @unique @map("user_id")
+
+  balance     Decimal  @default(0)
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  transactions WalletTransaction[]
+
+  @@map("wallets")
+}
+
+model Portfolio {
+  id                 String   @id @default(uuid())
+
+  userId             String   @unique @map("user_id")
+
+  totalGram          Decimal  @default(0) @map("total_gram")
+
+  averageBuyPrice    Decimal  @default(0) @map("average_buy_price")
+
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("portfolios")
+}
+
+model GoldPrice {
+  id              String   @id @default(uuid())
+
+  buyPrice        Decimal  @map("buy_price")
+
+  sellPrice       Decimal  @map("sell_price")
+
+  effectiveDate   DateTime @map("effective_date")
+
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  transactions Transaction[]
+
+  @@map("gold_prices")
+}
+
+model Transaction {
+
+  id              String   @id @default(uuid())
+
+  userId          String   @map("user_id")
+
+  goldPriceId     String   @map("gold_price_id")
+
+  type            TransactionType
+
+  gram            Decimal
+
+  pricePerGram    Decimal @map("price_per_gram")
+
+  totalPrice      Decimal @map("total_price")
+
+  status          TransactionStatus @default(SUCCESS)
+
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  goldPrice GoldPrice @relation(fields: [goldPriceId], references: [id])
+
+  @@map("transactions")
+}
+
+model WalletTransaction {
+  id        String   @id @default(uuid())
+  walletId  String
+  type      WalletTransactionType
+  amount    Decimal
+  balance   Decimal
+  createdAt DateTime @default(now())
+
+  wallet Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+}
+
+enum WalletTransactionType {
+  TOPUP
+  WITHDRAW
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
