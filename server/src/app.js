@@ -19,6 +19,7 @@ app.use(
     origin: [
       process.env.CLIENT_URL,
       "http://localhost:5173",
+      "https://gold-vest.vercel.app"
     ],
     credentials: true,
   })
