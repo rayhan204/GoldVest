@@ -14,31 +14,31 @@ import userRoutes from "./modules/user/user.routes.js";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-      process.env.CLIENT_URL,
-      "http://localhost:5173",
-    ],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       process.env.CLIENT_URL,
+//       "http://localhost:5173",
+//     ],
+//     credentials: true,
+//   })
+// );
 
-app.use(express.json());
+// app.use(express.json());
 
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/wallet", walletRoutes);
-app.use("/api/gold-prices", goldPriceRoutes);
-app.use("/api/dashboard", dashboardRoutes);
-app.use("/api/transactions", transactionRoutes);
-app.use("/api/portofolios", portofolioRoutes);
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
-app.use(
-  "/api-docs",
-  swaggerUI.serve,
-  swaggerUI.setup(swaggerSpec)
-);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/api/wallet", walletRoutes);
+// app.use("/api/gold-prices", goldPriceRoutes);
+// app.use("/api/dashboard", dashboardRoutes);
+// app.use("/api/transactions", transactionRoutes);
+// app.use("/api/portofolios", portofolioRoutes);
+// app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+// app.use(
+//   "/api-docs",
+//   swaggerUI.serve,
+//   swaggerUI.setup(swaggerSpec)
+// );
 
 app.get("/", (req, res) => {
   res.json({
