@@ -1,90 +1,107 @@
-import {
-    LayoutDashboard,
-    Wallet,
-    Gem,
-    ArrowLeftRight,
-    User,
-    LogOut,
-} from "lucide-react";
-
 import { NavLink } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Wallet,
+  PieChart,
+  ArrowLeftRight,
+  UserRound,
+  Coins,
+  X,
+  LogOut,
+} from "lucide-react";
+import Logo from "../common/Logo";
+import { cn } from "../../utils/cn";
+import useAuthStore from "../../store/auth.store";
 
-const menus = [
-    {
-        name: "Dashboard",
-        path: "/dashboard",
-        icon: LayoutDashboard,
-    },
-    {
-        name: "Wallet",
-        path: "/wallet",
-        icon: Wallet,
-    },
-    {
-        name: "Portfolio",
-        path: "/portofolios",
-        icon: Gem,
-    },
-    {
-        name: "Transactions",
-        path: "/transactions",
-        icon: ArrowLeftRight,
-    },
-    {
-        name: "Profile",
-        path: "/profile",
-        icon: User,
-    },
+const navItems = [
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/wallet", label: "Wallet", icon: Wallet },
+  { to: "/portofolios", label: "Portofolios", icon: PieChart },
+  { to: "/transactions", label: "Transaksi", icon: ArrowLeftRight },
+  { to: "/profile", label: "Profil", icon: UserRound },
 ];
 
-const Sidebar = () => {
-    return (
-        <aside className="w-72 bg-slate-900 text-white flex flex-col">
+const adminItem = {
+  to: "/admin/gold-prices",
+  label: "Harga Emas",
+  icon: Coins,
+};
 
-            <div className="h-20 flex items-center justify-center border-b border-slate-800">
+const Sidebar = ({ open, onClose, onLogout }) => {
+  const user = useAuthStore((state) => state.user);
+  const items =
+    user?.role === "ADMIN" ? [...navItems, adminItem] : navItems;
 
-                <h1 className="text-2xl font-bold text-yellow-400">
-                    GoldVest
-                </h1>
+  return (
+    <>
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-ink-950/50 lg:hidden"
+          onClick={onClose}
+        />
+      )}
 
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-ink-950 transition-transform duration-200 lg:static lg:translate-x-0",
+          open ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <div className="flex items-center justify-between px-5 py-6">
+          <Logo dark />
+          <button
+            onClick={onClose}
+            className="rounded-lg p-1.5 text-gold-200 hover:bg-white/5 lg:hidden"
+          >
+            <X className="size-5" />
+          </button>
+        </div>
+
+        <nav className="flex-1 space-y-1 px-3">
+          {items.map(({ to, label, icon: Icon, end }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={end}
+              onClick={onClose}
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  isActive
+                    ? "bg-gold-500/15 text-gold-300"
+                    : "text-white/70 hover:bg-white/5 hover:text-white"
+                )
+              }
+            >
+              <Icon className="size-4.5 shrink-0" />
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="border-t border-white/10 p-3">
+          <div className="mb-2 flex items-center gap-3 rounded-lg px-3 py-2">
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gold-500/20 font-display text-sm font-semibold text-gold-300">
+              {user?.fullName?.[0]?.toUpperCase() || "U"}
             </div>
-
-            <nav className="flex-1 px-4 py-6 space-y-2">
-
-                {menus.map((menu) => {
-                    const Icon = menu.icon;
-
-                    return (
-                        <NavLink
-                            key={menu.path}
-                            to={menu.path}
-                            className={({ isActive }) =>
-                                `flex items-center gap-4 px-4 py-3 rounded-xl transition
-                                ${
-                                    isActive
-                                        ? "bg-yellow-500 text-black"
-                                        : "hover:bg-slate-800"
-                                }`
-                            }
-                        >
-                            <Icon size={20} />
-
-                            {menu.name}
-                        </NavLink>
-                    );
-                })}
-            </nav>
-
-            <button className="m-4 flex items-center gap-3 rounded-xl bg-red-500 px-4 py-3 hover:bg-red-600">
-
-                <LogOut size={20} />
-
-                Logout
-
-            </button>
-
-        </aside>
-    );
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-white">
+                {user?.fullName || "Pengguna"}
+              </p>
+              <p className="truncate text-xs text-white/50">{user?.email}</p>
+            </div>
+          </div>
+          <button
+            onClick={onLogout}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-loss-500/10 hover:text-loss-500"
+          >
+            <LogOut className="size-4.5" />
+            Keluar
+          </button>
+        </div>
+      </aside>
+    </>
+  );
 };
 
 export default Sidebar;

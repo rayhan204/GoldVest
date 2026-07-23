@@ -1,51 +1,47 @@
-import { Bell } from "lucide-react";
+import { Menu, Coins } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getLatestGoldPrice } from "../../api/goldPrice.api";
+import { formatCurrency } from "../../utils/format";
 
-const Topbar = () => {
-    return (
-        <header className="h-20 bg-white border-b flex items-center justify-between px-8">
+const Topbar = ({ title, onMenuClick }) => {
+  const { data } = useQuery({
+    queryKey: ["gold-price", "latest"],
+    queryFn: getLatestGoldPrice,
+    refetchInterval: 60_000,
+  });
 
-            <div>
+  const price = data?.data;
 
-                <h2 className="text-2xl font-bold">
-                    Dashboard
-                </h2>
+  return (
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-ink-950/8 bg-cream-50/90 px-4 py-4 backdrop-blur sm:px-6">
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onMenuClick}
+          className="rounded-lg p-2 text-ink-800 hover:bg-ink-950/5 lg:hidden"
+        >
+          <Menu className="size-5" />
+        </button>
+        <h1 className="font-display text-xl font-semibold text-ink-950 sm:text-2xl">
+          {title}
+        </h1>
+      </div>
 
-                <p className="text-gray-500">
-                    Welcome back 👋
-                </p>
-
-            </div>
-
-            <div className="flex items-center gap-5">
-
-                <Bell className="cursor-pointer" />
-
-                <div className="flex items-center gap-3">
-
-                    <div className="h-10 w-10 rounded-full bg-yellow-400" />
-
-                    <div>
-
-                        <p className="font-semibold">
-
-                            Rayhan
-
-                        </p>
-
-                        <span className="text-sm text-gray-500">
-
-                            USER
-
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </header>
-    );
+      {price && (
+        <div className="hidden items-center gap-2 rounded-full border border-gold-500/30 bg-gold-100/60 px-3.5 py-1.5 sm:flex">
+          <Coins className="size-3.5 text-gold-600" />
+          <span className="text-xs text-ink-600">Jual</span>
+          <span className="font-mono-num text-xs font-semibold text-ink-950">
+            {formatCurrency(price.sellPrice)}
+          </span>
+          <span className="mx-1 h-3 w-px bg-ink-950/15" />
+          <span className="text-xs text-ink-600">Beli</span>
+          <span className="font-mono-num text-xs font-semibold text-ink-950">
+            {formatCurrency(price.buyPrice)}
+          </span>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default Topbar;

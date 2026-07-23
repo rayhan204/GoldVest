@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 // Layout
 import AuthLayout from "../layouts/AuthLayout";
@@ -36,6 +36,10 @@ const router = createBrowserRouter([
     {
         element: <AuthLayout />,
         children: [
+            {
+                path: "/",
+                element: <Navigate to="/login" replace />,
+            },
             {
                 path: "/login",
                 element: <LoginPage />,

@@ -1,25 +1,35 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-const useAuthStore = create((set) => ({
-    user: null,
+const useAuthStore = create(
+  persist(
+    (set) => ({
+      user: null,
+      accessToken: null,
+      refreshToken: null,
 
-    accessToken: null,
+      setAuth: ({ user, accessToken, refreshToken }) =>
+        set((state) => ({
+          user: user ?? state.user,
+          accessToken: accessToken ?? state.accessToken,
+          refreshToken: refreshToken ?? state.refreshToken,
+        })),
 
-    refreshToken: null,
+      setUser: (user) => set({ user }),
 
-    setAuth: ({ user, accessToken, refreshToken }) =>
+      setAccessToken: (accessToken) => set({ accessToken }),
+
+      logout: () =>
         set({
-            user,
-            accessToken,
-            refreshToken,
+          user: null,
+          accessToken: null,
+          refreshToken: null,
         }),
-
-    clearAuth: () =>
-        set({
-            user: null,
-            accessToken: null,
-            refreshToken: null,
-        }),
-}));
+    }),
+    {
+      name: "goldvest-auth",
+    }
+  )
+);
 
 export default useAuthStore;

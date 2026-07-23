@@ -13,13 +13,15 @@ const useRegister = () => {
         onSuccess: (response) => {
             toast.success(response.message);
 
-            navigate("/login");
+            navigate("/login", {
+                replace: true,
+            });
         },
 
         onError: (error) => {
             toast.error(
                 error.response?.data?.message ||
-                    "Register gagal"
+                "Register gagal"
             );
         },
     });
