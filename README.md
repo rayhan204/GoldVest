@@ -226,7 +226,8 @@ Entity utama:
 # 📄 API Documentation
 
 Backend telah dilengkapi dokumentasi API menggunakan Swagger.
-
+```
+https://goldvest-production.up.railway.app/api-docs/
 ```
 http://localhost:5000/api-docs
 ```
