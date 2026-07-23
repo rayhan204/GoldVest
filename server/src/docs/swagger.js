@@ -20,8 +20,8 @@ const options = {
 
     servers: [
       {
-        url: `http://localhost:${process.env.PORT || 5000}/api`,
-        description: "Development Server",
+        url: process.env.API_URL || "http://localhost:5000/api",
+        description: "GoldVest API",
       },
     ],
 
