@@ -40,11 +40,4 @@ app.use(
   swaggerUI.setup(swaggerSpec)
 );
 
-app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "GoldVest API is running 🚀",
-  });
-});
-
 export default app;
