@@ -1,74 +1,75 @@
 # 🥇 GoldVest
 
-> **GoldVest** merupakan project pribadi Fullstack Developer yang saya bangun sebagai media pembelajaran untuk mengembangkan kemampuan dalam membangun aplikasi fintech berbasis investasi emas menggunakan teknologi modern.
+> **GoldVest** adalah project Fullstack Developer yang saya bangun sebagai media pembelajaran untuk mengembangkan kemampuan dalam membangun aplikasi fintech berbasis investasi emas menggunakan teknologi modern.
 
-> **⚠️ Disclaimer**
+> ⚠️ **Disclaimer**
 >
-> Project ini dibuat **hanya untuk kebutuhan belajar dan pengembangan portofolio**.
+> Project ini dibuat **untuk kebutuhan belajar dan pengembangan portofolio**.
 > Data harga emas **tidak menggunakan API pihak ketiga maupun data realtime**, melainkan **diinput secara manual oleh Admin** sebagai simulasi proses transaksi investasi emas.
 
 ---
 
 # 📖 Tentang Project
 
-GoldVest merupakan simulasi aplikasi investasi emas digital yang dikembangkan dengan konsep Fullstack Development.
+GoldVest merupakan simulasi aplikasi investasi emas digital yang dikembangkan menggunakan arsitektur Fullstack modern.
 
-Tujuan utama project ini adalah mempelajari bagaimana membangun aplikasi skala nyata mulai dari:
+Project ini dibuat untuk mempelajari bagaimana membangun aplikasi fintech mulai dari perancangan database, pengembangan REST API, autentikasi, hingga integrasi frontend dan backend.
 
-- Perancangan Database
-- RESTful API
-- Authentication & Authorization
-- Backend Architecture
-- Integrasi Database
-- Dokumentasi API
-- Integrasi Frontend dan Backend
+## Status Project
 
-Saat ini progress project adalah:
-
-- ✅ Backend selesai dikembangkan
-- 🚧 Frontend masih dalam tahap pengembangan menggunakan React.js + Vite
-
-Project ini dibangun sebagai latihan agar memahami alur pengembangan aplikasi fintech dari sisi backend maupun frontend.
+- ✅ Backend Development
+- ✅ Frontend Development
+- ✅ REST API
+- ✅ Authentication & Authorization
+- ✅ PostgreSQL Database
+- ✅ Prisma ORM
+- ✅ Swagger API Documentation
+- ✅ Frontend & Backend Integration
+- 🚧 Pengembangan fitur lanjutan masih berlangsung
 
 ---
 
-# ✨ Fitur yang Sudah Dibuat
+# ✨ Fitur
 
-## Authentication
+## 👤 Authentication
 
-- Registrasi User
-- Login User
+- Register
+- Login
 - JWT Authentication
 - Password Hashing (bcrypt)
 - Protected Route
 
 ---
 
-## Dashboard
+## 📊 Dashboard
 
-- Informasi Saldo Wallet
+- Ringkasan Portfolio
+- Saldo Wallet
 - Total Kepemilikan Emas
 - Nilai Aset
 - Total Kekayaan
+- Grafik Harga Emas
 
 ---
 
-## Wallet
+## 💰 Wallet
 
 - Informasi Saldo
-- Manajemen Saldo Wallet
+- Top Up Wallet
+- Withdraw Wallet
+- Riwayat Wallet
 
 ---
 
-## Portfolio Emas
+## 🪙 Portfolio
 
 - Total Gram Emas
 - Harga Beli Rata-rata
-- Perhitungan Nilai Aset
+- Nilai Aset Saat Ini
 
 ---
 
-## Transaksi
+## 🔄 Transaction
 
 - Pembelian Emas
 - Penjualan Emas
@@ -76,22 +77,20 @@ Project ini dibangun sebagai latihan agar memahami alur pengembangan aplikasi fi
 
 ---
 
-## Manajemen Harga Emas (Admin)
+## 👨‍💼 Admin
 
 - Tambah Harga Emas
 - Edit Harga Emas
 - Hapus Harga Emas
 - Riwayat Harga Emas
 
-> Harga emas **diinput secara manual oleh Admin**, bukan berasal dari API eksternal.
->
-> Hal ini dilakukan karena fokus utama project adalah mempelajari implementasi business logic dan pengembangan backend.
+> Harga emas diinput secara manual oleh Admin sebagai simulasi proses transaksi investasi emas.
 
 ---
 
 # 🛠 Tech Stack
 
-## Frontend (Masih Development)
+## Frontend
 
 - React.js
 - Vite
@@ -99,7 +98,9 @@ Project ini dibangun sebagai latihan agar memahami alur pengembangan aplikasi fi
 - React Router DOM
 - Axios
 - Zustand
-- React Query
+- TanStack React Query
+- Recharts
+- Lucide React
 
 ---
 
@@ -112,7 +113,7 @@ Project ini dibangun sebagai latihan agar memahami alur pengembangan aplikasi fi
 - JWT
 - bcrypt
 - Multer
-- Swagger API Documentation
+- Swagger
 
 ---
 
@@ -121,7 +122,22 @@ Project ini dibangun sebagai latihan agar memahami alur pengembangan aplikasi fi
 ```
 GoldVest
 │
-├── client/                 # Frontend (Development)
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── features/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   ├── store/
+│   │   ├── utils/
+│   │   └── App.jsx
+│   │
+│   ├── package.json
+│   └── vite.config.js
 │
 ├── server/
 │   ├── prisma/
@@ -137,51 +153,39 @@ GoldVest
 │   │
 │   ├── uploads/
 │   ├── package.json
-│   └── ...
+│   └── .env
 │
 └── README.md
 ```
 
 ---
 
-# 🏗️ Arsitektur Backend
+# 🏗 Backend Architecture
 
-Backend dikembangkan menggunakan konsep **Layered Architecture** agar setiap bagian memiliki tanggung jawab yang jelas.
+Backend menggunakan konsep **Layered Architecture**.
 
 ```
 Client
-
-↓
-
+   │
 Routes
-
-↓
-
+   │
 Controllers
-
-↓
-
+   │
 Services
-
-↓
-
+   │
 Repositories
-
-↓
-
+   │
 Prisma ORM
-
-↓
-
+   │
 PostgreSQL
 ```
 
-### Penjelasan
+## Penjelasan
 
 - **Routes** menerima request dari client.
-- **Controller** menangani request dan response.
-- **Service** berisi business logic.
-- **Repository** berinteraksi langsung dengan database menggunakan Prisma.
+- **Controllers** menangani request dan response.
+- **Services** berisi business logic.
+- **Repositories** berinteraksi langsung dengan database menggunakan Prisma ORM.
 - **Database** menggunakan PostgreSQL.
 
 Pendekatan ini membuat project lebih mudah dikembangkan, dipelihara, dan scalable.
@@ -190,11 +194,11 @@ Pendekatan ini membuat project lebih mudah dikembangkan, dipelihara, dan scalabl
 
 # 🔐 Authentication
 
-Sistem autentikasi menggunakan:
+Authentication menggunakan:
 
 - JSON Web Token (JWT)
-- Password Hashing menggunakan bcrypt
-- Middleware Authentication
+- Password Hashing (bcrypt)
+- Authentication Middleware
 - Protected API
 
 ---
@@ -219,32 +223,45 @@ Entity utama:
 
 ---
 
-# 📄 Dokumentasi API
+# 📄 API Documentation
 
-Backend telah dilengkapi dengan dokumentasi API menggunakan **Swagger**.
-
-Melalui Swagger seluruh endpoint dapat diuji secara langsung tanpa menggunakan aplikasi tambahan.
-
-Endpoint dokumentasi:
+Backend telah dilengkapi dokumentasi API menggunakan Swagger.
 
 ```
-/api-docs
+http://localhost:5000/api-docs
+```
+
+---
+
+# 📋 Prerequisites
+
+Pastikan telah menginstal:
+
+- Node.js (v18+)
+- PostgreSQL
+- Git
+- npm
+
+---
+
+# 🚀 Cara Menjalankan Project
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/rayhan204/GoldVest.git
+
+cd GoldVest
 ```
 
 ---
 
 # 🚀 Menjalankan Backend
 
-Clone repository
+Masuk ke folder server
 
 ```bash
-git clone https://github.com/rayhan204/GoldVest.git
-```
-
-Masuk ke folder backend
-
-```bash
-cd GoldVest/server
+cd server
 ```
 
 Install dependency
@@ -256,9 +273,9 @@ npm install
 Buat file `.env`
 
 ```env
-DATABASE_URL=
-JWT_SECRET=
-PORT=3000
+DATABASE_URL=postgresql://username:password@localhost:5432/goldvest
+JWT_SECRET=your_secret_key
+PORT=5000
 ```
 
 Generate Prisma Client
@@ -267,70 +284,129 @@ Generate Prisma Client
 npx prisma generate
 ```
 
-Migrasi Database
+Jalankan Migration
 
 ```bash
 npx prisma migrate dev
 ```
 
-Menjalankan server
+Menjalankan Backend
 
 ```bash
 npm run dev
 ```
 
+Backend berjalan di:
+
+```
+http://localhost:5000
+```
+
+Swagger API:
+
+```
+http://localhost:5000/api-docs
+```
+
 ---
 
-# 🚧 Status Frontend
+# 💻 Menjalankan Frontend
 
-Frontend masih dalam proses pengembangan.
+Buka terminal baru.
 
-Beberapa fitur yang akan dikembangkan antara lain:
+Masuk ke folder client
 
-- Halaman Login
-- Halaman Register
-- Dashboard
-- Wallet
-- Portfolio
+```bash
+cd client
+```
+
+Install dependency
+
+```bash
+npm install
+```
+
+Buat file `.env`
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Menjalankan Frontend
+
+```bash
+npm run dev
+```
+
+Frontend berjalan di:
+
+```
+http://localhost:5173
+```
+
+---
+
+# 📸 Tampilan Aplikasi
+
+### Authentication
+
+- Login
+- Register
+
+### Dashboard
+
+- Ringkasan Portfolio
 - Grafik Harga Emas
+- Statistik Investasi
+
+### Wallet
+
+- Top Up
+- Withdraw
+- Riwayat Wallet
+
+### Portfolio
+
+- Informasi Kepemilikan Emas
+
+### Transaction
+
+- Pembelian Emas
+- Penjualan Emas
 - Riwayat Transaksi
-- Halaman Admin
-- Responsive Design
 
-Frontend dibangun menggunakan:
+### Admin
 
-- React.js
-- Vite
-- Tailwind CSS
+- CRUD Harga Emas
 
 ---
 
 # 🎯 Tujuan Project
 
-Project ini dibuat sebagai media belajar untuk meningkatkan kemampuan dalam:
+Project ini dibuat sebagai media pembelajaran untuk meningkatkan kemampuan dalam:
 
 - Fullstack Development
-- RESTful API
+- React.js
 - Express.js
 - PostgreSQL
 - Prisma ORM
+- REST API
 - JWT Authentication
-- Backend Architecture
+- Layered Architecture
 - Database Design
 - API Documentation
-- Frontend Integration
+- Frontend & Backend Integration
 
 ---
 
-# 📌 Pengembangan Selanjutnya
+# 📌 Roadmap Pengembangan
 
 Beberapa fitur yang direncanakan:
 
-- Penyelesaian Frontend
-- Dashboard Analytics
-- Upload Foto Profil
 - Refresh Token Authentication
 - Role Based Authorization
+- Upload Foto Profil
+- Dashboard Analytics
 - Unit Testing
 - Docker
 - CI/CD
@@ -343,7 +419,7 @@ Beberapa fitur yang direncanakan:
 
 **Rayhan**
 
-Mahasiswa Teknik Informatika | Fullstack Developer Enthusiast
+Informatics Engineering Student | Fullstack Developer Enthusiast
 
 GitHub
 
@@ -357,8 +433,8 @@ https://www.linkedin.com/in/rayhan-ray-022933244/
 
 # 📝 Catatan
 
-Project ini merupakan project pribadi yang dikembangkan sebagai latihan membangun aplikasi Fullstack dengan studi kasus investasi emas digital.
+GoldVest merupakan project portofolio yang dikembangkan sebagai simulasi aplikasi investasi emas digital.
 
-Seluruh implementasi difokuskan pada pembelajaran arsitektur backend, autentikasi, manajemen database, dokumentasi API menggunakan Swagger, serta integrasi frontend dan backend.
+Fokus utama project adalah implementasi Fullstack Development, Layered Architecture, REST API, autentikasi menggunakan JWT, manajemen database dengan PostgreSQL & Prisma ORM, dokumentasi API menggunakan Swagger, serta integrasi frontend dan backend.
 
-Project ini **bukan aplikasi investasi emas yang digunakan untuk kebutuhan produksi** dan **tidak menggunakan data harga emas secara realtime**.
+Project ini **tidak ditujukan untuk kebutuhan produksi** dan **tidak menggunakan data harga emas secara realtime**.
